@@ -76,7 +76,4 @@ export default class StrategicFSDebtList extends LightningElement {
         this.calculateData(this.debtData);
     }
 
-
-    
-
 }
