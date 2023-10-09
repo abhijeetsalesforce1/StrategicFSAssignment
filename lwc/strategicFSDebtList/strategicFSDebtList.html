@@ -1,0 +1,40 @@
+<template>
+    <lightning-card class="slds-card_boundary" icon-name="custom:custom13">
+        <h1 slot="title">Strategic FS Debt List</h1>
+        <lightning-datatable
+                key-field="id"
+                data={debtData}
+                columns={debtDataColumns}
+                onsave={handleSave}
+                onrowselection={handleRowSelection} 
+                draft-values={draftValues}>
+        </lightning-datatable>
+
+        <div class="slds-p-top_medium">
+        <lightning-button variant="brand" label="Add Debt" title="Add Debt" onclick={handleAddDebt} 
+                                class="slds-m-left_x-small"></lightning-button>
+        <lightning-button variant="brand" label="Remove Debt" title="Remove Debt" onclick={handleClickRemove} 
+                                class="slds-m-left_x-small"></lightning-button>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-around_medium slds-clearfix" >
+            <div class="slds-col slds-size_2-of-3 slds-p-around_small slds-float_left" style="background-color:#7DF9FF">
+                <b><span>Total</span></b>
+            </div>
+            <div class="slds-col slds-size_1-of-3 slds-p-around_small slds-float_right" style="background-color:#7DF9FF">
+                <b><span>$ {totalBalance}</span></b>
+            </div>
+        </div>
+
+
+        <div class="slds-grid slds-gutters slds-p-around_medium" >
+            <div class="slds-col slds-size_1-of-2">
+                <b><span>Total Row Count: </span> {totalRecords} </b>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <b><span>Check Row Count: </span> {selectedRows}</b>
+            </div>
+        </div>
+
+    </lightning-card>
+</template>
