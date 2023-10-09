@@ -1,4 +1,4 @@
-import { LightningElement, wire, api, track } from 'lwc';
+import { LightningElement, wire, track } from 'lwc';
 import getDebtDataList from '@salesforce/apex/StrategicFSDebtListController.onLoadDebtDetails';
 
 const debtDataColumns = [
@@ -10,7 +10,6 @@ const debtDataColumns = [
 ];
 
 export default class StrategicFSDebtList extends LightningElement {
-    @api recordId;
     @track totalBalance;
     @track totalRecords;
     @track jsonDebtSelectedList = [];
@@ -21,9 +20,14 @@ export default class StrategicFSDebtList extends LightningElement {
     debtDataColumns = debtDataColumns;
 
     @wire(getDebtDataList)
-    dataFn({data, error}){
-        this.debtData = data;
-        this.calculateData(this.debtData);
+    getDebtDataList({data, error}){
+        if(data){
+            this.debtData = data;
+            this.calculateData(this.debtData);
+        } else if(error){
+            this.error = error;
+        }
+
     }
 
     //this is called when any of the row is marked checked
@@ -33,18 +37,6 @@ export default class StrategicFSDebtList extends LightningElement {
         this.jsonDebtSelectedList = selectedRows;
     }
 
-    //Calculating Total balacne and Records
-    calculateData(debtData){
-        this.totalBalance = 0;
-        this.totalRecords = 0;
-        if(this.debtData){
-            this.debtData.forEach(eachData =>{
-                this.totalRecords = this.totalRecords + 1;
-                this.totalBalance = this.totalBalance + parseFloat(eachData.balance);
-            });
-        }
-    }
-   
     // Adding new instance of Row
     handleAddDebt() {
         const newDebtRow ={'creditorName':'','firstName':'','lastName':'','minPaymentPercentage':0,'balance':0}; 
@@ -75,5 +67,18 @@ export default class StrategicFSDebtList extends LightningElement {
         });
         this.calculateData(this.debtData);
     }
+
+    //Calculating Total balacne and Records
+    calculateData(debtData){
+        this.totalBalance = 0;
+        this.totalRecords = 0;
+        if(this.debtData){
+            this.debtData.forEach(eachData =>{
+                this.totalRecords = this.totalRecords + 1;
+                this.totalBalance = this.totalBalance + parseFloat(eachData.balance);
+            });
+        }
+    }
+   
 
 }
