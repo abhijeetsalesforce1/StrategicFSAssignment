@@ -1,6 +1,11 @@
 <template>
     <lightning-card class="slds-card_boundary" icon-name="custom:custom13">
         <h1 slot="title">Strategic FS Debt List</h1>
+        
+        <template if:true={error}>
+            <p style="color:red"> {error} </p>
+        </template>
+
         <lightning-datatable
                 key-field="id"
                 data={debtData}
